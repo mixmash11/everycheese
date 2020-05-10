@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  web: &web
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      - DJANGO_READ_DOT_ENV_FILE=False
+      - DJANGO_SECRET_KEY=dev=_rhce4nxh=h=&n=74jlsfw_sfg6-ks2xgovijjo%(7f&&#4@jjh
+      - DATABASE_URL=postgres://postgres:postgres@db/postgres
+      - DJANGO_DEBUG=False
+    volumes:
+      - .:/code
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+  db:
+    image: postgres:11
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - /var/lib/postgresql/data_everycheese:/var/lib/postgresql/data
